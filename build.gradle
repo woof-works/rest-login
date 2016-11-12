@@ -3,19 +3,19 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE")
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE'
     }
 }
 
-apply plugin: "java"
-apply plugin: "eclipse"
-apply plugin: "idea"
-apply plugin: "spring-boot"
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
 apply plugin: 'war'
 
 war {
-    baseName = "rest-login"
-    version = "0.1"
+    baseName = 'rest-login'
+    version = '0.1'
 }
 
 repositories {
@@ -26,15 +26,15 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile("org.projectlombok:lombok:1.16.10")
-    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
-    compile("org.hibernate:hibernate-java8")
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.projectlombok:lombok:1.16.10'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    compile 'org.hibernate:hibernate-java8'
     //Compile the spring security test so that the BCrypt encoder can be used without importing the entire spring security package
-    compile("org.springframework.security:spring-security-test")
-    compile("com.google.guava:guava:20.0")
+    compile 'org.springframework.security:spring-security-test'
+    compile 'com.google.guava:guava:20.0'
 
-    testCompile("org.springframework.boot:spring-boot-starter-test")
-    testCompile("com.h2database:h2")
+    testcompile 'org.springframework.boot:spring-boot-starter-test'
+    testcompile 'com.h2database:h2'
 }
