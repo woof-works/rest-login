@@ -30,6 +30,8 @@ dependencies {
     compile("org.projectlombok:lombok:1.16.10")
     compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.4")
     compile("org.hibernate:hibernate-java8")
+    //Compile the spring security test so that the BCrypt encoder can be used without importing the entire spring security package
+    compile("org.springframework.security:spring-security-test")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
