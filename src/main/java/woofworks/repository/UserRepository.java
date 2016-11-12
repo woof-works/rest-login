@@ -1,6 +1,7 @@
 package woofworks.repository;
 
 import org.hibernate.Query;
+import woofworks.model.SessionToken;
 import woofworks.model.User;
 
 /**
@@ -21,5 +22,20 @@ public class UserRepository extends BaseRepository {
         query.setParameter("username", username);
 
         return (User) query.uniqueResult();
+    }
+
+    /**
+     * Returns a session token object based on the token
+     *
+     * @param token
+     * @return
+     */
+    public SessionToken getSessionToken(String token) {
+        String hql = "from SessionToken where token = :token";
+
+        Query query = createQuery(hql);
+        query.setParameter("token", token);
+
+        return (SessionToken) query.uniqueResult();
     }
 }

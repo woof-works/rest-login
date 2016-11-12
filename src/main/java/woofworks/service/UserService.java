@@ -7,11 +7,16 @@ import org.springframework.transaction.annotation.Transactional;
 import woofworks.dto.LoginRequestDTO;
 import woofworks.dto.LoginResponseDTO;
 import woofworks.exception.LoginFailedException;
+import woofworks.exception.SessionExpiredException;
 import woofworks.model.SessionToken;
 import woofworks.model.User;
 import woofworks.repository.UserRepository;
 import woofworks.security.TokenHandler;
 import woofworks.security.TokenUser;
+
+import java.time.LocalDateTime;
+
+import static com.google.common.base.Objects.equal;
 
 /**
  * Created by Tim on 11-Nov-16.
@@ -98,5 +103,42 @@ public class UserService extends BaseService {
      */
     public User getUserByUserName(String username) {
         return userRepository.getUserByUserName(username);
+    }
+
+    /**
+     * Returns the id of the user from the specified token.
+     *
+     * @param token
+     * @return
+     */
+    public Long getUserIdFromToken(String token) {
+        TokenUser tokenUser = tokenHandler.parseUserFromToken(token);
+        if (tokenUser == null) {
+            throw new SessionExpiredException();
+        }
+
+        SessionToken session = userRepository.getSessionToken(token);
+        if (equal(session.getSessionUser().getId(), tokenUser.id) == false) {
+            // The user id from the session doesn't match what is in the database, possible that token was compromised
+            throw new LoginFailedException();
+        }
+
+        // Another expiry check here, just in case
+        if (LocalDateTime.now().isAfter(session.getExpires())) {
+            throw new SessionExpiredException();
+        }
+
+        return tokenUser.id;
+    }
+
+    /**
+     * Returns the user based on the session token
+     *
+     * @param token
+     * @return
+     */
+    public User getUserFromToken(String token) {
+        Long userId = getUserIdFromToken(token);
+        return get(User.class, userId);
     }
 }
