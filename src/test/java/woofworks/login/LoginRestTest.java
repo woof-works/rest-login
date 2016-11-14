@@ -38,7 +38,7 @@ public class LoginRestTest extends BaseTest {
 		request.username = "user";
 		request.password = "password";
 
-		ResponseEntity<LoginResponseDTO> res = rest.postForEntity("/api/login", request,
+		ResponseEntity<LoginResponseDTO> res = rest.postForEntity("/login", request,
 				LoginResponseDTO.class);
 
 		assertIsEqual(HttpStatus.OK, res.getStatusCode());
