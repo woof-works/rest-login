@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @SelectBeforeUpdate
 @DynamicInsert
 @DynamicUpdate
-@SequenceGenerator(name = "SEQ_STORE", sequenceName = "sessionTokenIdSeq", allocationSize = 1, initialValue = 1)
+@SequenceGenerator(name = "SEQ_STORE", sequenceName = "sessionTokenIdSeq", allocationSize = 1)
 public class SessionToken {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_STORE")
