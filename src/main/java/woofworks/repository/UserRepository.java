@@ -1,12 +1,16 @@
 package woofworks.repository;
 
 import org.hibernate.Query;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import woofworks.model.SessionToken;
 import woofworks.model.User;
 
 /**
  * Created by Tim on 2016-11-12.
  */
+@Repository
+@Transactional
 public class UserRepository extends BaseRepository {
 
     /**
