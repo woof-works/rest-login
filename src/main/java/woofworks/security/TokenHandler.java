@@ -2,6 +2,7 @@ package woofworks.security;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
@@ -32,6 +33,7 @@ public class TokenHandler {
 
     private final Mac hmac;
 
+    @Autowired
     private ObjectMapper objectMapper;
 
     public TokenHandler(@Value("${token.secret}") String secret) {
@@ -39,9 +41,6 @@ public class TokenHandler {
             byte[] secretKey = DatatypeConverter.parseBase64Binary(secret);
             hmac = Mac.getInstance(HMAC_ALGO);
             hmac.init(new SecretKeySpec(secretKey, HMAC_ALGO));
-
-            //A seperate object mapper is created here, since the serialization / deserialization may be different from the main object mapper that is used by the rest services
-            objectMapper = new ObjectMapper();
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             throw new IllegalStateException("failed to initialize HMAC: " + e.getMessage(), e);
         }
