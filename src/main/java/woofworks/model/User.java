@@ -1,9 +1,23 @@
 package woofworks.model;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SelectBeforeUpdate;
+
+import javax.persistence.*;
+
 /**
  * Created by Tim on 07-Nov-16.
  */
+@Entity
+@SelectBeforeUpdate
+@DynamicInsert
+@DynamicUpdate
+@SequenceGenerator(name = "SEQ_STORE", sequenceName = "userIdSeq", allocationSize = 1)
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_STORE")
     private Long id;
 
     private String login;
