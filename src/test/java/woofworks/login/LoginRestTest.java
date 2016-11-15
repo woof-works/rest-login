@@ -32,11 +32,12 @@ public class LoginRestTest extends BaseTest {
 		saveUser();
 	}
 
+    /**
+     * Test to log in successfully
+     */
 	@Test
 	public void successfulLoginTest() {
-		LoginRequestDTO request = new LoginRequestDTO();
-		request.username = "user";
-		request.password = "password";
+		LoginRequestDTO request = buildLoginRequest();
 
 		ResponseEntity<LoginResponseDTO> res = rest.postForEntity("/login", request,
 				LoginResponseDTO.class);
@@ -46,4 +47,34 @@ public class LoginRestTest extends BaseTest {
 		LoginResponseDTO dto = res.getBody();
 		Assert.isTrue(isNullOrEmpty(dto.token) == false);
 	}
+
+    /**
+     * Checks that the JSON string is properly formatted and returned
+     */
+	@Test
+	public void checkJsonStringTest() {
+        LoginRequestDTO request = buildLoginRequest();
+
+        ResponseEntity<String> res = rest.postForEntity("/login", request,
+                String.class);
+
+        assertIsEqual(HttpStatus.OK, res.getStatusCode());
+
+        String json = res.getBody();
+
+        Assert.isTrue(json.startsWith("{\"token\":\""));
+    }
+
+    /**
+     * Builds a login DTO request
+     *
+     * @return
+     */
+    private LoginRequestDTO buildLoginRequest() {
+        LoginRequestDTO request = new LoginRequestDTO();
+        request.username = "user";
+        request.password = "password";
+
+        return request;
+    }
 }
